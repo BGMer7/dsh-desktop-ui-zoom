@@ -64,11 +64,11 @@
       "versions": [
         {
           "version": "0.1.0",
-          "publishTimestamp": 1795674561,
+          "publishTimestamp": 1795677542,
           "source": {
             "type": "git",
             "url": "https://github.com/BGMer7/dsh-desktop-ui-zoom",
-            "commit": "63e88cbd53f43bb498e02f649e3e5c8dad610bbf"
+            "commit": "20468026ae34ef724ee679dffc5185d8b41e773c"
           },
           "engines": {
             "dsh": ">=0.2.0-rc.1"
