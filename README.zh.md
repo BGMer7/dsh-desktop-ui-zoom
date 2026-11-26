@@ -1,5 +1,7 @@
 # dsh-desktop-ui-zoom
 
+[![Check](https://github.com/BGMer7/dsh-desktop-ui-zoom/actions/workflows/check.yml/badge.svg)](https://github.com/BGMer7/dsh-desktop-ui-zoom/actions/workflows/check.yml)
+
 把桌面窗口里被取消的**整页缩放**补回来：用 CSS `zoom` 把应用根节点 `#root` 整体缩放，
 文字、图标、间距、按钮一起变大，而不是只改字号。
 
@@ -75,3 +77,7 @@
 
 插件管理里移除 `dsh-desktop-ui-zoom` 即可；根节点上的 `--dsh-desktop-ui-zoom` 变量和样式表会随插件
 卸载一起清掉。
+
+## 更新记录
+
+See [CHANGELOG.md](CHANGELOG.md).

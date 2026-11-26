@@ -1,5 +1,7 @@
 # dsh-desktop-ui-zoom
 
+[![Check](https://github.com/BGMer7/dsh-desktop-ui-zoom/actions/workflows/check.yml/badge.svg)](https://github.com/BGMer7/dsh-desktop-ui-zoom/actions/workflows/check.yml)
+
 Restore **whole-interface zoom** in the DeepSeek Harness desktop window: scale `#root` with CSS `zoom` so text, icons, spacing, sidebar, and buttons scale together instead of changing font sizes alone.
 
 [English](README.md) | [中文](README.zh.md)
@@ -42,3 +44,7 @@ Reload (`Cmd+R`) or restart the app after installing.
 ## License
 
 [MIT](LICENSE)
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md).
