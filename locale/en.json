@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Interface zoom",
+    "description": "Scales the whole window, text and UI together, with Cmd+Option+= / - / 0."
+  }
+}

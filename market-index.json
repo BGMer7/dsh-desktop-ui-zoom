@@ -1,0 +1,78 @@
+{
+  "format": 1,
+  "title": {
+    "en": "BGMer7 DSH Plugins",
+    "zh": "BGMer7 的 DSH 插件源"
+  },
+  "description": {
+    "en": "Community plugins published by BGMer7 for DeepSeek Harness.",
+    "zh": "BGMer7 发布的 DeepSeek Harness 社区插件索引。"
+  },
+  "metadata": {
+    "categories": {
+      "ui": {
+        "title": {
+          "en": "UI Enhancements",
+          "zh": "界面增强"
+        }
+      }
+    },
+    "labels": {
+      "desktop": {
+        "title": {
+          "en": "Desktop",
+          "zh": "桌面端"
+        }
+      }
+    },
+    "sortKeys": {}
+  },
+  "plugins": [
+    {
+      "name": "dsh-desktop-ui-zoom",
+      "title": {
+        "en": "Interface zoom",
+        "zh": "整体界面缩放"
+      },
+      "description": {
+        "en": "Scales the whole window, text and UI together, with Cmd+Option+= / - / 0.",
+        "zh": "用 Cmd+Option+= / - / 0 把文字和界面一起缩放，补回桌面端取消的窗口级缩放。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IkludGVyZmFjZSB6b29tIj4KICA8cmVjdCB4PSI0IiB5PSI0IiB3aWR0aD0iNTYiIGhlaWdodD0iNTYiIHJ4PSIxNCIgZmlsbD0iI2VlZjJmOCIvPgogIDxyZWN0IHg9IjE0IiB5PSIxOCIgd2lkdGg9IjM2IiBoZWlnaHQ9IjI4IiByeD0iNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMmY2ZmQwIiBzdHJva2Utd2lkdGg9IjMiLz4KICA8cGF0aCBkPSJNMjIgMzhsOS05TTMxIDM4di05aC05IiBmaWxsPSJub25lIiBzdHJva2U9IiMyZjZmZDAiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CiAgPHBhdGggZD0iTTQyIDI2bC05IDlNMzMgMjZ2OWg5IiBmaWxsPSJub25lIiBzdHJva2U9IiMyZjZmZDAiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CiAgPHJlY3QgeD0iMjAiIHk9IjUwIiB3aWR0aD0iMjQiIGhlaWdodD0iMyIgcng9IjEuNSIgZmlsbD0iIzlkYjhkYyIvPgo8L3N2Zz4K",
+      "author": "BGMer7",
+      "homepage": "https://github.com/BGMer7/dsh-desktop-ui-zoom#readme",
+      "repository": {
+        "url": "https://github.com/BGMer7/dsh-desktop-ui-zoom"
+      },
+      "metadata": {
+        "category": "ui",
+        "keywords": [
+          "deepseek",
+          "harness",
+          "dsh",
+          "dsh-plugin",
+          "zoom",
+          "ui-scale",
+          "accessibility",
+          "desktop"
+        ],
+        "labels": [
+          "desktop"
+        ],
+        "sortKeys": {}
+      },
+      "versions": [
+        {
+          "version": "0.1.0",
+          "publishTimestamp": 1795674561,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": ">=0.2.0-rc.1"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "name": "dsh-desktop-ui-zoom",
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": "BGMer7",
+  "description": "Restore whole-interface zoom in the DeepSeek Harness desktop window: Cmd+Option+= / - / 0 scales the app root, text, icons, and layout together.",
+  "keywords": [
+    "deepseek",
+    "harness",
+    "dsh",
+    "dsh-plugin",
+    "zoom",
+    "ui-scale",
+    "accessibility",
+    "desktop"
+  ],
+  "homepage": "https://github.com/BGMer7/dsh-desktop-ui-zoom#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BGMer7/dsh-desktop-ui-zoom.git"
+  },
+  "bugs": {
+    "url": "https://github.com/BGMer7/dsh-desktop-ui-zoom/issues"
+  },
+  "engines": {
+    "dsh": ">=0.2.0-rc.1",
+    "node": ">=18"
+  },
+  "type": "module",
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./package.json": "./package.json",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "README.md",
+    "README.zh.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "check": "node --check index.js && node --check client.js"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-shortcuts",
+        "@deepseek-ai/dsh-client-locale"
+      ]
+    }
+  }
+}
