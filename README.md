@@ -36,6 +36,7 @@ Reload (`Cmd+R`) or restart the app after installing.
 - `#root { zoom: var(--dsh-desktop-ui-zoom, 1) }`: reflows the layout to the zoomed viewport so edge-aligned and `position: fixed` elements stay anchored.
 - **Frame metric shim**: `getBoundingClientRect()` on the `ui-layout` frame element is divided by the zoom factor so `viewportWidth` matches its layout width, keeping the right panel width and resize handle aligned.
 - **Portals stay unscaled**: menus and dialogs mounted on `document.body` stay at 100% and use visual coordinates directly so they align with zoomed anchors.
+- **Full-screen portals scale too**: modals portaled to `document.body` (settings, plugin manager) are detected as `position: fixed` containers filling the viewport and get their own zoom, so they follow the level as well.
 - **Known limitation**: `100vh` / `100vw` max-height constraints inside zoomed elements do not scale with `zoom`; at `>= 130%`, effective viewport width may drop below `1024px` and auto-collapse the left sidebar to its rail (standard responsive behavior).
 
 ## License

@@ -25,6 +25,8 @@ window.__ModuleLoader__.load({
     const STORAGE_KEY = 'dsh-desktop-ui-zoom.level'
     const NS = 'dsh-desktop-ui-zoom'
     const FRAME_ATTR = 'data-dsh-desktop-ui-zoom-frame'
+    const SURFACE_ATTR = 'data-dsh-desktop-ui-zoom-surface'
+    const TOAST_ATTR = 'data-dsh-desktop-ui-zoom-toast'
 
     const DICTIONARIES = {
       en: {
@@ -70,6 +72,22 @@ window.__ModuleLoader__.load({
       const byStyle = root.querySelector('[style*="grid-template-columns"]')
       if (byStyle !== null) return byStyle
       return root.querySelector('[class*="_frame"]')
+    }
+
+    /*
+     * body 直接子元素里，哪些是「全屏浮层」：固定定位且几乎铺满视口。
+     * 设置面板、插件管理器这类 modal 都走 createPortal(..., document.body)，
+     * 容器是 position:fixed;inset:0，所以不进 #root 的缩放，需要单独缩放。
+     * 浮层自身的 rect 在 zoom 下仍是视口尺寸（百分比/inset 会抵消），
+     * 所以这个判断在缩放前后都成立，不会反复摘挂。
+     */
+    function isFullscreenOverlay(el) {
+      const style = window.getComputedStyle(el)
+      if (style.position !== 'fixed') return false
+      if (style.display === 'none' || style.visibility === 'hidden') return false
+      const rect = el.getBoundingClientRect()
+      if (rect.width === 0 || rect.height === 0) return false
+      return rect.width >= window.innerWidth * 0.9 && rect.height >= window.innerHeight * 0.9
     }
 
     function apply(ctx) {
@@ -124,7 +142,7 @@ window.__ModuleLoader__.load({
 
         toast = document.createElement('div')
         toast.setAttribute('data-plugin', 'dsh-desktop-ui-zoom')
-        toast.setAttribute('data-dsh-desktop-ui-zoom-toast', '')
+        toast.setAttribute(TOAST_ATTR, '')
         toast.setAttribute('aria-live', 'polite')
         document.body.appendChild(toast)
 
@@ -169,7 +187,13 @@ window.__ModuleLoader__.load({
         const sheet = document.createElement('style')
         sheet.setAttribute('data-plugin', 'dsh-desktop-ui-zoom')
         sheet.setAttribute('data-plugin-css', 'root-zoom')
-        sheet.textContent = '#root{zoom:var(--dsh-desktop-ui-zoom,1)}'
+        sheet.textContent = [
+          '#root{zoom:var(--dsh-desktop-ui-zoom,1)}',
+          /* 全屏浮层（设置等）挂在 body 上，是 fixed + inset:0 的容器；
+             它们不在 #root 缩放子树里，所以单独缩放。面板本身按 px 定尺寸，
+             zoom 会等比放大；容器 inset:0 会自动铺满视口。 */
+          `[${SURFACE_ATTR}]{zoom:var(--dsh-desktop-ui-zoom,1)}`,
+        ].join('')
         document.head.appendChild(sheet)
         paint()
 
@@ -186,9 +210,23 @@ window.__ModuleLoader__.load({
           })
         }
 
+        /* 挂到 body 上的全屏浮层（设置面板、插件管理器等）也跟随缩放。 */
+        const markSurfaces = () => {
+          for (const el of document.body.children) {
+            if (!(el instanceof Element)) continue
+            if (el.hasAttribute(TOAST_ATTR) || el.hasAttribute(SURFACE_ATTR)) continue
+            if (isFullscreenOverlay(el)) el.setAttribute(SURFACE_ATTR, '')
+          }
+        }
+
         markFrame()
-        const observer = new MutationObserver(markFrame)
+        markSurfaces()
+        const observer = new MutationObserver(() => {
+          markFrame()
+          markSurfaces()
+        })
         observer.observe(document.getElementById('root') ?? document.body, { childList: true, subtree: true })
+        observer.observe(document.body, { childList: true })
 
         return () => {
           observer.disconnect()
@@ -196,6 +234,7 @@ window.__ModuleLoader__.load({
             Element.prototype.getBoundingClientRect = nativeRect
           }
           for (const frame of document.querySelectorAll(`[${FRAME_ATTR}]`)) frame.removeAttribute(FRAME_ATTR)
+          for (const surface of document.querySelectorAll(`[${SURFACE_ATTR}]`)) surface.removeAttribute(SURFACE_ATTR)
           sheet.remove()
           document.documentElement.style.removeProperty('--dsh-desktop-ui-zoom')
         }
