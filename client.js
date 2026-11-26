@@ -211,25 +211,42 @@ window.__ModuleLoader__.load({
         }
 
         /* 挂到 body 上的全屏浮层（设置面板、插件管理器等）也跟随缩放。 */
+        const scanSurface = (el) => {
+          if (!(el instanceof Element)) return
+          if (el.hasAttribute(SURFACE_ATTR) || el.hasAttribute(TOAST_ATTR)) return
+          /* #root 里的元素已经被根节点缩放，不能再叠一层。 */
+          if (el.closest('#root') !== null) return
+          /* 结构兜底：modal 的 role=presentation 包裹层里一定有一个 role=dialog，
+             即使刚挂载还没铺满视口，也按浮层处理。 */
+          const modalWrapper = el.getAttribute('role') === 'presentation'
+            && el.querySelector('[role="dialog"]') !== null
+          if (modalWrapper || isFullscreenOverlay(el)) el.setAttribute(SURFACE_ATTR, '')
+        }
         const markSurfaces = () => {
-          for (const el of document.body.children) {
-            if (!(el instanceof Element)) continue
-            if (el.hasAttribute(TOAST_ATTR) || el.hasAttribute(SURFACE_ATTR)) continue
-            if (isFullscreenOverlay(el)) el.setAttribute(SURFACE_ATTR, '')
-          }
+          for (const el of document.body.children) scanSurface(el)
+          /* portal 不一定直接挂在 body 上，按 dialog/presentation 再兜一层。 */
+          for (const el of document.body.querySelectorAll('[role="dialog"], [role="presentation"]')) scanSurface(el)
+        }
+        let surfaceTimer = 0
+        const scheduleSurfaces = () => {
+          markSurfaces()
+          requestAnimationFrame(markSurfaces)
+          clearTimeout(surfaceTimer)
+          surfaceTimer = setTimeout(markSurfaces, 250)
         }
 
         markFrame()
-        markSurfaces()
+        scheduleSurfaces()
         const observer = new MutationObserver(() => {
           markFrame()
-          markSurfaces()
+          scheduleSurfaces()
         })
         observer.observe(document.getElementById('root') ?? document.body, { childList: true, subtree: true })
-        observer.observe(document.body, { childList: true })
+        observer.observe(document.body, { childList: true, subtree: true })
 
         return () => {
           observer.disconnect()
+          clearTimeout(surfaceTimer)
           if (Element.prototype.getBoundingClientRect === shimmedRect) {
             Element.prototype.getBoundingClientRect = nativeRect
           }
